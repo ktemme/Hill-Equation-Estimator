@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'sinatra'
 require 'regression'
 require 'sinatra/static_assets'
