@@ -22,7 +22,13 @@ post '/upload' do
   @minline = [[@data.first.first,min],[midpoint,min],[@data.last.first,min]]
   
   fraction = @data.map{|t| [t.first, (t.last-min)/(max-min).to_f]}
-  hill = fraction.map{|t| [Math.log(t.first), Math.log(t.last/(1-t.last))]}
+  hill = fraction.map do |t| 
+    a = t.first == 0 ? -1.0/0 : Math.log(t.first)
+    b = t.last/(1-t.last) == 0 ? -1.0/0 : Math.log(t.last/(1-t.last))
+    # [Math.log(t.first), Math.log(t.last/(1-t.last))]
+    [a,b]
+  end
+  
   @hill = hill.select{|t| t.first.infinite? == nil && t.last.infinite? == nil}    
     
   hill_x = @hill.map{|t| t.first}
